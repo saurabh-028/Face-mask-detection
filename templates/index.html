@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Mask Detection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="text-center my-5">
+            <h1>Face Mask Detection</h1>
+            <p class="lead">An application for detecting whether a person is wearing a mask or not in real-time</p>
+        </header>
+
+        <form action="/" method="post" enctype="multipart/form-data" class="mt-4">
+            <div class="form-group">
+                <label for="file">Upload an image:</label>
+                <input type="file" class="form-control-file" id="file" name="file" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        <a href="/video_feed" class="btn btn-success mt-4">Open Camera for Real-Time Detection</a>
+
+        {% if image %}
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h3 class="text-center">Original Image</h3>
+                <img id="originalImage" src="{{ url_for('static', filename='images/' + image) }}" alt="Original Image" class="img-thumbnail">
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-center">Annotated Image</h3>
+                <img id="annotatedImage" src="{{ url_for('static', filename='images/' + annotated_image) }}" alt="Annotated Image" class="img-thumbnail">
+            </div>
+        </div>
+        {% endif %}
+
+        <section id="about" class="my-5">
+            <h2>About</h2>
+            <p>This web application is built using Python, Flask, and TensorFlow. It employs a convolutional neural network (CNN) model to detect whether a person is wearing a mask or not in real-time. The model is trained on a dataset of images labeled with and without masks.</p>
+            <p>Face mask detection systems like this one can be used in various real-life scenarios, including:</p>
+            <ul>
+                <li>Monitoring compliance with face mask mandates in public places, such as airports, train stations, and hospitals.</li>
+                <li>Ensuring workplace safety by identifying individuals not wearing masks in office buildings, factories, and construction sites.</li>
+                <li>Enabling contactless access control systems that require individuals to wear masks for entry.</li>
+            </ul>
+        </section>
+
+        <section id="how-it-works" class="my-5">
+            <h2>How It Works</h2>
+            <p>The face mask detection system follows these steps:</p>
+            <ol>
+                <li><strong>Face Detection:</strong> Utilizes a pre-trained deep learning model to detect faces in the input image or video stream.</li>
+                <li><strong>Region of Interest (ROI) Extraction:</strong> Extracts the face regions detected in step 1 for further analysis.</li>
+                <li><strong>Mask Detection:</strong> Applies a pre-trained CNN model to classify each face ROI as either wearing a mask or not.</li>
+                <li><strong>Annotation:</strong> Draws bounding boxes and labels around each detected face, indicating whether a mask is present.</li>
+                <li><strong>Display:</strong> Displays the original input image or video stream alongside the annotated version with bounding boxes and labels.</li>
+            </ol>
+        </section>
+
+        <footer class="text-center my-5">
+            <p>&copy; 2024 Face Mask Detection</p>
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#originalImage').click(function(){
+                $(this).toggleClass('img-thumbnail').toggleClass('img-fluid');
+            });
+
+            $('#annotatedImage').click(function(){
+                $(this).toggleClass('img-thumbnail').toggleClass('img-fluid');
+            });
+        });
+    </script>
+</body>
+</html>
